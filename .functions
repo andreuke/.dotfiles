@@ -1,1 +1,18 @@
+function gpp {
+    git pull -r origin $1 &&
+    git push origin $1
+}
 
+# ssh with reverse tunneling (for debugging purposes)
+function sssh {
+    ssh -R 9000:localhost:9000 -A $@
+}
+
+# ssh with tmux integration ('new' opens a new session. defaults to 'attach')
+function tsh {
+    [[ $2 = "new" ]] && local command="" || local command="attach"
+    ssh -t $1 "tmux -CC -u ${command}"
+}
+
+# This enables auto completion for tsh to be the same as ssh   
+compdef tsh=ssh
